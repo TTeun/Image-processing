@@ -1,0 +1,25 @@
+function [image, M, m, M1, m1] = IPcontraststretch(image)
+
+image = imread('trui.tif');
+
+N = 8;
+m = min(min(image));
+M = max(max(image));
+subplot(121)
+imshow(image);
+
+y = im2double(image);
+
+
+y = y - m;
+% divisor =  2^N / (M-m);
+u = image ./ (M-m);
+image = image .* (2^N);
+
+subplot(122)
+imshow(image);
+
+m1 = min(min(image));
+M1 = max(max(image));
+
+end
