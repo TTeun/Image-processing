@@ -1,8 +1,11 @@
-function [fft, real_part, real_part_abs] = fouriertransform(x)
-    x = im2double(x);
+% Function to take the fourier transform of an image x
+function [out] = fouriertransform(x)
+    % Convert it to doubles 
+    y = im2double(x);
+    [ M, N ] = size(x);
     
-    fft = fftshift(fft2(x));
-    
-    real_part = real(fft);
-    real_part_abs = im2uint8(abs(real_part));
+    % Take the 2D fourier transform of the image (fft2) and center it by fftshift
+    fft_shift = fftshift(fft2(y));
+   
+    out = uint8(abs(real(fft_shift)));
 end
