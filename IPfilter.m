@@ -4,7 +4,6 @@ function [out] = IPfilter(x,m)
     % Converting the image to obtain more precision
     x = im2double(x);
     
-
     % Number of rows
     row =  length(x(:,1));
     % Number of columns
