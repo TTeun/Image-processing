@@ -16,7 +16,7 @@ function [out, average] = fouriertransform(x)
     % by using the size of the images. Then multiply with the total number
     % of intensity levels, i.e. 255, to obtain the average intensity level 
     % of the image
-    average = fft_image(1,1)/(M*N)*256;
+    average = fft_image(1,1)/(M*N)*255;
    
     % Calculating the Fourier Spectrum by taking the absolute value
     out = uint8( (real(fft_shift).^2 + imag(fft_shift).^2 ).^(1/2) ); 
