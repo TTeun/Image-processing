@@ -21,7 +21,7 @@ function [out, image_noise] = IPmedian(image, Pb)
 
     %Diagonal
     % Up and left
-    x_ul = [ x_u(: ,2:col) x_d(:,1)];
+    x_ul = [ x_u(: ,2:col) x_u(:,1)];
     % Up and right
     x_ur = [ x_u(:, col) x_u(:, 1:col-1)];
     % Down and left
