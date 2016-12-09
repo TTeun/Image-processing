@@ -35,9 +35,12 @@ function [out] = IPfilter(x,m)
     if devisor == 0
         devisor = 1;
     end
+    
+    % Normalize the mask
+    m = (1/devisor).*m ;
 
     % Applying mask to image to obain final result
-    final = (1/devisor)*(x_ul * m(1,1) + x_u * m(1,2) + x_ur*m(1,3) + x_l*m(2,1) + x*m(2,2) + x_r*m(2,3) + x_dl*m(3,1) + x_d*m(3,2) + x_dr*m(3,3));
+    final = (x_ul * m(1,1) + x_u * m(1,2) + x_ur*m(1,3) + x_l*m(2,1) + x*m(2,2) + x_r*m(2,3) + x_dl*m(3,1) + x_d*m(3,2) + x_dr*m(3,3));
     out=im2uint8(final);
 end
 
