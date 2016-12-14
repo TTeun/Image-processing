@@ -6,7 +6,8 @@
 % 1. Transfer function H, used to shift the image
 % 2. Shifted image with noise
 % 3. Shifted image without noise
-function [H, img_shift_noise, img_shift] = shift(x)
+% 4. Number of intensity values that determines variance
+function [H, img_shift_noise, img_shift, N] = shift(x)
     % Converting the image to double
     x = im2double(x);
     
@@ -56,7 +57,7 @@ function [H, img_shift_noise, img_shift] = shift(x)
     % Mean and variance, where N is the number of greylevel you your 
     % variance to have
     mean = 0 ;
-    N = 10 ;
+    N = 1 ;
     var = (1/255) * N ; 
     
     % Applying the noise

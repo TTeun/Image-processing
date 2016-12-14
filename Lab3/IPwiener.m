@@ -15,12 +15,12 @@ function [img_wiener, img_inverse] = IPwiener(img)
     
     % Apply 45 degree shift and add Gaussian noise with shift-function
     % Note that H that is returned is already in Fourier Domain
-    [H, g, s] = shift(img);
+    [H, g, s, O] = shift(img);
     
     % Applying Wiener filter and Inverse filter
     F = zeros(P, Q, 'double');  
     FI = zeros(P, Q, 'double');  
-    K = 0.01 ;
+    K = .1 ;
     for u = -N:N-1
         for v = -M:M-1
           h = H(u+N+1,v+M+1) ;
@@ -40,4 +40,6 @@ function [img_wiener, img_inverse] = IPwiener(img)
     % Slicing to obtain the Wiener and Inverse filtered image
     img_wiener = fft_res_img2(1:M, 1:N);
     img_inverse = fft_res_imgI2(1:M, 1:N);
+    
+    imshow(img_wiener);
 end
