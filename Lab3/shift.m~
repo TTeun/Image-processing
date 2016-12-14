@@ -1,11 +1,4 @@
-% This function takes an image x as input. It then calculates the shifted
-% image by 45 degrees to upper left corner of the original.
-% In addition to this the function add Gaussian noise to the shifted image.
-%
-% Output:
-% 1. Transfer function H, used to shift the image
-% 2. Shifted image with noise
-% 3. Shifted image without noise
+
 function [H, img_shift_noise, img_shift] = shift(x)
     % Converting the image to double
     x = im2double(x);
@@ -39,7 +32,6 @@ function [H, img_shift_noise, img_shift] = shift(x)
         end
     end
 
-    % Calculate the convolution
     convolution = H .* fft_shift_x;
     
     % Perform inverse operations to obtain the shifted image
@@ -55,9 +47,9 @@ function [H, img_shift_noise, img_shift] = shift(x)
     % Applying noise to noise array
     % Mean and variance, where N is the number of greylevel you your 
     % variance to have
-    mean = 0 ;
+    mean = 0;
     N = 10 ;
-    var = (1/255) * N ; 
+    var = (1/255) * N; 
     
     % Applying the noise
     noise_g = imnoise(noise, 'gaussian', mean , var);
@@ -68,6 +60,6 @@ function [H, img_shift_noise, img_shift] = shift(x)
     fft_noise = fft2(noise_g);
     fft_noise2 = fftshift(fft_noise);
     
-    % The original image, shifted and with Gaussian noise
+    % The original image, shifted and with Ga
     img_shift_noise = convolution + fft_noise2 ;    
 end
