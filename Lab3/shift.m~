@@ -1,5 +1,13 @@
-
-function [H, img_shift_noise, img_shift] = shift(x)
+% This function takes an image x as input. It then calculates the shifted
+% image by 45 degrees to upper left corner of the original.
+% In addition to this the function add Gaussian noise to the shifted image.
+%
+% Output:
+% 1. Transfer function H, used to shift the image
+% 2. Shifted image with noise
+% 3. Shifted image without noise
+% 4. Number of intensity values that determines variance
+function [H, fft_image3, fft_image2] = shift(x)
     % Converting the image to double
     x = im2double(x);
     
@@ -32,34 +40,61 @@ function [H, img_shift_noise, img_shift] = shift(x)
         end
     end
 
+    % Calculate the convolution
     convolution = H .* fft_shift_x;
     
     % Perform inverse operations to obtain the shifted image
     fft_image = ifftshift(convolution);
-    fft_image2 = ifft2(fft_image);
+    fft_image2 = real(ifft2(fft_image));
     
-    % Slicing to obtain the shifted image
-    img_shift = fft_image2(1:M, 1:N);
+    test1 = fft2(fft_image2);
+    test2 = fftshift(test1);
     
-    % Create empty noise array. 
-    noise = zeros(P, Q, 'double');
+    fft_image = ifftshift(test2);
+    fft_image3 = real(ifft2(fft_image));
     
-    % Applying noise to noise array
-    % Mean and variance, where N is the number of greylevel you your 
-    % variance to have
-    mean = 0;
-    N = 10 ;
-    var = (1/255) * N; 
+    imshow(fft_image3);
+        
+    F = zeros(P, Q, 'double');  
+    FI = zeros(P, Q, 'double');  
+    K = .1 ;
+    F = test2 ./ H ;
+%     for u = -N:N-1
+%         for v = -M:M-1
+%           h = H(u+N+1,v+M+1) ;
+%           g1 = test2(u+N+1,v+M+1);
+%           F(u+N+1,v+M+1) = ( 1/h ) * g1 ;
+%           FI(u+N+1,v+M+1) = ( 1/h ) * g1 ;
+%         end
+%     end
     
-    % Applying the noise
-    noise_g = imnoise(noise, 'gaussian', mean , var);
+    kaas = fftshift(F);
+    kaas2 = real(ifft2(kaas));
     
-    % Taking the Fourier Transform of the noise, such that we can add it to
-    % the shifted image. Where we use the linearity of the Fourier
-    % Transform
-    fft_noise = fft2(noise_g);
-    fft_noise2 = fftshift(fft_noise);
+    imshow(kaas2);
     
-    % The original image, shifted and with Ga
-    img_shift_noise = convolution + fft_noise2 ;    
+%     % Slicing to obtain the shifted image
+%     img_shift = fft_image2(1:M, 1:N);
+%     
+%     % Create empty noise array. 
+%     noise = zeros(P, Q, 'double');
+%     
+%     % Applying noise to noise array
+%     % Mean and variance, where N is the number of greylevel you your 
+%     % variance to have
+%     mean = 0 ;
+%     N = 1 ;
+%     var = (1/255) * N ; 
+%     
+%     % Applying the noise
+%     noise_g = imnoise(noise, 'gaussian', mean , var);
+%     
+%     % Taking the Fourier Transform of the noise, such that we can add it to
+%     % the shifted image. Where we use the linearity of the Fourier
+%     % Transform
+%     fft_noise = fft2(noise_g);
+%     fft_noise2 = fftshift(fft_noise);
+%     
+%     % The original image, shifted and with Gaussian noise
+%     img_shift_noise = convolution + fft_noise2 ;    
 end

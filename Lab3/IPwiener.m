@@ -1,21 +1,14 @@
-% This function takes an image img as input. It passed this image to the 
-% function 'shift(x)' (the other file for explanation on this function).
-% 'shift(x)' shifts the image and adds Gaussian noise to the image.
-% This result is Wiener filtered and given as an output.
+% This function takes the Fourier Transform of an degraded image img as 
+% input. 
+% The result is Wiener filtered image.
 % As an comparison it also outputs the result by using the Inverse filter
 % technique.
 
-function [img_wiener, img_inverse] = IPwiener(img)
+function [img_wiener, img_inverse] = IPwiener(img, H)
     % Determining the size of the image 
-    [M, N] = size(img);
-    
-    % Determine the sizes need for padding
-    P = 2 * M ;
-    Q = 2 * N ;
-    
-    % Apply 45 degree shift and add Gaussian noise with shift-function
-    % Note that H that is returned is already in Fourier Domain
-    [H, g, s, O] = shift(img);
+    [P, Q] = size(img);
+    M = P /2;
+    N = Q /2;
     
     % Applying Wiener filter and Inverse filter
     F = zeros(P, Q, 'double');  
@@ -24,7 +17,7 @@ function [img_wiener, img_inverse] = IPwiener(img)
     for u = -N:N-1
         for v = -M:M-1
           h = H(u+N+1,v+M+1) ;
-          g1 = g(u+N+1,v+M+1);
+          g1 = img(u+N+1,v+M+1);
           F(u+N+1,v+M+1) = ( 1/h ) * ( abs(h)^2 / (abs(h)^2 + K ) ) * g1 ;
           FI(u+N+1,v+M+1) = ( 1/h ) * g1 ;
         end
