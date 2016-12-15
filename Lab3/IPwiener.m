@@ -1,6 +1,5 @@
 % This function takes the Fourier Transform of an degraded image img as 
-% input. 
-% The result is Wiener filtered image.
+% input. The result is a Wiener filtered image.
 % As an comparison it also outputs the result by using the Inverse filter
 % technique.
 
@@ -13,7 +12,7 @@ function [img_wiener, img_inverse] = IPwiener(img, H)
     % Applying Wiener filter and Inverse filter
     F = zeros(P, Q, 'double');  
     FI = zeros(P, Q, 'double');  
-    K = .1 ;
+    K = .05 ;
     for u = -N:N-1
         for v = -M:M-1
           h = H(u+N+1,v+M+1) ;
@@ -33,6 +32,4 @@ function [img_wiener, img_inverse] = IPwiener(img, H)
     % Slicing to obtain the Wiener and Inverse filtered image
     img_wiener = fft_res_img2(1:M, 1:N);
     img_inverse = fft_res_imgI2(1:M, 1:N);
-    
-    imshow(img_wiener);
 end

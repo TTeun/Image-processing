@@ -6,8 +6,9 @@
 % 1. Transfer function H, used to shift the image
 % 2. Shifted image with noise
 % 3. Shifted image without noise
+% 4. Shifted image with noise in spatial space
 
-function [H, img_shift_noise, img_shift] = shift(x)
+function [H, img_shift_noise, img_shift, img_sn_spat] = shift_and_gauss_noise(x)
     % Converting the image to double
     x = im2double(x);
     
@@ -56,10 +57,11 @@ function [H, img_shift_noise, img_shift] = shift(x)
     % Applying noise to noise array, 
     % The mean and variance in terms of grey values
     mean = 0 ;
-    var = 10 ; 
+    var = 10/2 ; 
     
     % Applying the noise
     noise_g = imnoise(noise, 'gaussian', mean , var);
+    noise_g = im2double(noise_g);
     
     % Taking the Fourier Transform of the noise, such that we can add it to
     % the shifted image. Where we use the linearity of the Fourier
@@ -69,5 +71,10 @@ function [H, img_shift_noise, img_shift] = shift(x)
     
     % The original image, that is shifted and with Gaussian noise
     % NOTE: THIS IS AN IMAGE IN THE FOURIER DOMAIN
-    img_shift_noise = convolution + fft_noise2 ;    
+    img_shift_noise = convolution + fft_noise2 ;
+    
+    % The original image, that is shifted and with Gaussian noise
+    % NOTE: THIS IS AN IMAGE IN THE FOURIER DOMAIN
+    img_sn_spat = ifft2(ifftshift(img_shift_noise));
+    img_sn_spat = img_sn_spat(1:M, 1:N);
 end
