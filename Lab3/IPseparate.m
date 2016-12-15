@@ -1,5 +1,3 @@
-function [image, M, m, M1, m1] = IPcontraststretch(image)
-
 image = imread('../trui.tif');
 
 N = 8;
@@ -23,5 +21,3 @@ hist(image(:));
 
 m1 = min(min(image));
 M1 = max(max(image));
-
-end

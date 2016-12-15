@@ -1,4 +1,4 @@
-function [image, M, m, M1, m1] = IPcontraststretch(image)
+function [image, M, m, M1, m1] = onzin(image)
 
 image = imread('../trui.tif');
 
