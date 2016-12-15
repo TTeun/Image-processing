@@ -57,7 +57,7 @@ function [H, img_shift_noise, img_shift, img_sn_spat] = shift_and_gauss_noise(x)
     % Applying noise to noise array, 
     % The mean and variance in terms of grey values
     mean = 0 ;
-    var = .1 ; 
+    var = 10 ; 
     
     % Applying the noise
     noise_g = imnoise(noise, 'gaussian', mean , var);
@@ -75,5 +75,5 @@ function [H, img_shift_noise, img_shift, img_sn_spat] = shift_and_gauss_noise(x)
     % The original image, that is shifted and with Gaussian noise
     % NOTE: THIS IS AN IMAGE IN THE FOURIER DOMAIN
     img_sn_spat = ifft2(ifftshift(img_shift_noise));
-    img_sn_spat = img_sn_spat(1:M, 1:N);
+    img_sn_spat = real(img_sn_spat(1:M, 1:N));
 end
