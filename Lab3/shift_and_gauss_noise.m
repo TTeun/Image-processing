@@ -4,8 +4,8 @@
 %
 % Output:
 % 1. Transfer function H, used to shift the image
-% 2. Shifted image with noise
-% 3. Shifted image without noise
+% 2. Shifted image with noise in Fourier space
+% 3. Shifted image without noise in spatial space
 % 4. Shifted image with noise in spatial space
 
 function [H, img_shift_noise, img_shift, img_sn_spat] = shift_and_gauss_noise(x)
@@ -57,7 +57,7 @@ function [H, img_shift_noise, img_shift, img_sn_spat] = shift_and_gauss_noise(x)
     % Applying noise to noise array, 
     % The mean and variance in terms of grey values
     mean = 0 ;
-    var = 10 ; 
+    var = 0.01 ; 
     
     % Applying the noise
     noise_g = imnoise(noise, 'gaussian', mean , var);

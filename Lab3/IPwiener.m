@@ -12,7 +12,7 @@ function [img_wiener, img_inverse] = IPwiener(img, H)
     % Applying Wiener filter and Inverse filter
     F = zeros(P, Q, 'double');  
     FI = zeros(P, Q, 'double');  
-    K = .05 ;
+    K = 1 ;
     for u = -N:N-1
         for v = -M:M-1
           h = H(u+N+1,v+M+1) ;
