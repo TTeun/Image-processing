@@ -1,0 +1,9 @@
+function IPrecon_by_dilation(f, mask, se)
+    n_wpixels_mask = sum(mask(:));
+    n_wpixels_f = sum(f(:));
+    
+    i = 0 ;
+    while i < 10
+    
+
+end
