@@ -1,9 +1,30 @@
-function IPrecon_by_dilation(f, mask, se)
-    n_wpixels_mask = sum(mask(:));
-    n_wpixels_f = sum(f(:));
+% Function that calculates the opening by reconstruction of an input image
+% f (the marker) , using the input mask and structuring element
+function [output] = IPrecon_by_dilation(f, mask, se)    
+    % Start
+    start = true ;
     
-    i = 0 ;
-    while i < 10
+    % Opening by reconstruction
+    % We use the number of pixels in the mask as the stability criterium
+    while start == true
+        f_old = f ;
+        
+        % Dilate the mask with the structuring element
+        dilated = IPdilate(f , se);
+        
+        % Take the intersection of the result with the mask
+        X = dilated & mask;
+        imshow(X)
+        
+        % Set X as the new marker
+        f = X;
+        
+        % Compare previous with new result
+        if X == f 
+            start = false ;
+        end
+    end
     
-
+    output = X ;
+    
 end

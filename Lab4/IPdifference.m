@@ -3,7 +3,7 @@
 % from the original image angio.tif at that pixel. Count the number of ‘on’
 % pixels in the ‘difference’ image.
 
-function [diff_opening] = IPdifference(opened, img)
+function [diff_opening , n_pix] = IPdifference(opened, img)
     [M, N]= size(img);
     diff_opening = zeros(M, N);
     
@@ -14,4 +14,7 @@ function [diff_opening] = IPdifference(opened, img)
             end
         end
     end
+    
+    n_pix= sum(diff_opening(:));
+    
 end

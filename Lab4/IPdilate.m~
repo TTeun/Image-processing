@@ -2,20 +2,31 @@
 % se_com. The output is the dialated image
 function [dilated_img] = IPdilate(img, se )
     [M , N ] = size(img) ;
+    
+    % Padding the imput image
     new_img = zeros(M+2,N+2);
-    org_img = zeros(M+2, N+2);
-    org_img(2:M+1 , 2:N+1) = img ;
+    new_img(2:M+1 , 2:N+1) = img ;
+    
+    % Flipping the structuring element
     se_flip = rot90(se,2);
     
+    % Apply the dilation. 
+    % Where we loop over the pixel and check if the values are 1. 
+    % If so, we apply the structuring element to that pixel by 
+    % padding the structuring element. 
     for i = 2:M+1
         for j = 2:N+1
-            if img(i-1,j-1) == 1
+           if img(i-1,j-1) == 1
                 se_padded = zeros(M+2 , N+2);
-                se_padded(i-1:i+2,j) = se_flip
-            end
+                se_padded(i-1:i+1,j-1:j+1) = se_flip ;
+                % Take the union of the current image with the flipped
+                % stucturing element to complete dilation
+                new_img = new_img | se_padded ;
+           end
         end
     end
     
-    dilated_img = 0 %new_img(2:M+1, 2:N+1);
+    % The final result is given as an output
+    dilated_img = new_img(2:M+1, 2:N+1);
    
 end
