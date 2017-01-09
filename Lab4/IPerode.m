@@ -4,25 +4,20 @@
 % complement of the input image by the structuring element B (so not flipped B)
 function [eroded_img] = IPerode(img, se )
     [M , N ] = size(img) ;
-    new_img = zeros(M+2,N+2); 
     img_com = imcomplement(img);
-   
-%   Apply the structuring element to the complement of the image
+    new_img = zeros(M+2,N+2);
+    new_img(2:M+1 , 2:N+1) = imcomplement(img) ;
+    
     for i = 2:M+1
         for j = 2:N+1
-            if img_com(i-1,j-1) == 1
-                new_img(i-1,j-1)    = se(1,1);
-                new_img(i-1,j)      = se(1,2);
-                new_img(i-1,j+1)    = se(1,3);
-                new_img(i,j-1)      = se(2,1);
-                new_img(i,j)        = se(2,2);
-                new_img(i,j+1)      = se(2,3);
-                new_img(i+1,j-1)    = se(3,1);
-                new_img(i+1,j)      = se(3,2);
-                new_img(i+1,j+1)    = se(3,3);         
-            end
+           if img_com(i-1,j-1) == 1
+                se_padded = zeros(M+2 , N+2);
+                se_padded(i-1:i+1,j-1:j+1) = se ;
+                new_img = new_img | se_padded ;
+           end
         end
     end
-    dilated_img = imcomplement( new_img(2:M+1, 2:N+1) );
+    
+    eroded_img = imcomplement( new_img(2:M+1, 2:N+1) );
    
 end
