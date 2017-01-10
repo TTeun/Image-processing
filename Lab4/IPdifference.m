@@ -4,16 +4,7 @@
 % pixels in the ‘difference’ image.
 
 function [diff_opening , n_pix] = IPdifference(img_check, img)
-    [M, N]= size(img);
-    diff_opening = zeros(M, N);
-    
-    for i = 1: M
-        for j = 1 : N
-            if img_check(i,j) ~= img(i,j)
-                diff_opening(i,j) = 1 ;
-            end
-        end
-    end
+    diff_opening = !(img_check == img);
     
     n_pix= sum(diff_opening(:));
     
