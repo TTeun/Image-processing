@@ -1,4 +1,4 @@
-function [mean, stand_dev, R, skew, U, avg_ent, img_slice] = IPtexturemeasures(img)
+function [mean, var_norm, R, skew, U, avg_ent] = IPtexturemeasures(img)
     % Determine image size
     [M,N] = size(img);
     % Determine slice size
@@ -27,7 +27,6 @@ function [mean, stand_dev, R, skew, U, avg_ent, img_slice] = IPtexturemeasures(i
     
     % Second moment: variance and R
     var = sum( (bins - mean).^2 .* hist_norm ) ; 
-    stand_dev = var^(1/2) ;
     var_norm = var / (255)^2 ;
     R = 1 - 1 / ( 1 + var_norm ) ;
     
