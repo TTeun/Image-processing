@@ -13,7 +13,7 @@ function [output, T] = IPautothresh(img)
     img_reshape = reshape(img_double, 1, M*N);
     
     % Initial estimate of T
-    T_old = 0.5 ;
+    T_old = 0.1 ;
     % Setting dT (the stop criteria) to a non zero value
     dT = 10 ;
     
@@ -26,14 +26,21 @@ function [output, T] = IPautothresh(img)
         for i = 1 : M*N
             if img_reshape(i) > T_old
                 G1(end+1) = img_reshape(i);
-            end
-            if img_reshape(i) <= T_old 
+            elseif img_reshape(i) <= T_old 
                 G2(end+1) = img_reshape(i);
             end
         end
         % Determinig the mean of the bins
-        m1 = mean(G1);
-        m2 = mean(G2);
+        if isempty(G1) == 1
+            m1 = 0 ;
+            m2 = mean(G2) ;
+        elseif isempty(G2) == 1
+            m1 = mean(G1) ; 
+            m2 = 0 ;
+        else 
+            m1 = mean(G1) ;
+            m2 = mean(G2) ;
+        end
         % Calculating new threshold value T
         T_new = 0.5 * ( m1 + m2 ) ;
         % Determining dT
