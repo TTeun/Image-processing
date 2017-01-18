@@ -1,14 +1,20 @@
-function [mean, stand_dev, R, skew, U, avg_ent] = IPtexturemeasures(img)
+function [mean, stand_dev, R, skew, U, avg_ent, img_slice] = IPtexturemeasures(img)
     % Determine image size
     [M,N] = size(img);
-    % Reshape image to 1D array
-    img_reshape = reshape(img, 1, M * N );
+    % Determine slice size
+    M_new = M-99 ;
+    N_new = N-99 ;
+    DIM = 100 ;
+    % Select lower, right quadrant 
+    img_slice = img(M_new:M, N_new:N);
+    % Reshape image to 1D array, with lentgh 10000 (100*100)
+    img_reshape = reshape(img_slice, 1, DIM * DIM );  
     
     % Own histogram function because histcounts does not seem to work
     % properly
     hist_img = zeros(1, 256); 
     bins = 1 : 256 ;
-    for i = 1 : M*N
+    for i = 1 : DIM * DIM
        I_val = img_reshape(i) ;
        hist_img(I_val+1) = hist_img(I_val+1) + 1 ;
     end 
